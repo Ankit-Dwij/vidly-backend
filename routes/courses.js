@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
 
 //POST & INPUT VALIDATION
 router.post("/", async (req, res) => {
-  const { error } = validateCourse(req.body);
+  const { error } = validateCourse(req.body);=
   if (error) return res.status(400).send(error);
 
   // const course = { id: courses.length + 1, name: req.body.name };
