@@ -9,6 +9,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const logger = require("./middlewares/logger");
 const courses = require("./routes/courses");
+const users = require("./routes/users");
 const home = require("./routes/homepage");
 //MIDDLEWARES
 const app = express();
@@ -29,6 +30,7 @@ if (process.env.NODE_ENV === "development") {
 
 //routes
 app.use("/api/courses", courses);
+app.use("/api/users", users);
 app.use("/", home);
 
 debug("Name : " + config.get("name"));
