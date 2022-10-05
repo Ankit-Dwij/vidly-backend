@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
@@ -19,7 +20,11 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(req.body.password, salt);
     await user.save();
-    res.send(_.pick(user, ["_id", "name", "email"]));
+
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY);
+    res
+      .header("x-auth-token", token)
+      .send(_.pick(user, ["_id", "name", "email"]));
   } catch (ex) {
     res.send(ex);
     console.log(ex);
@@ -33,18 +38,17 @@ router.post("/login", async (req, res) => {
   if (error) return res.status(400).send(error.message);
 
   let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("Invalid email or password");
+  if (!user) return res.status(400).send("Invalid email or password");
 
-  const validPassword = bcrypt.compare(req.body.password, user.password);
+  const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(400).send("Invalid email or password");
 
   try {
-    res.status(200).send(true);
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY);
+    res.status(200).send(token);
   } catch (ex) {
     res.send(ex);
   }
 });
-
-router.post("/login", async (req, res) => {});
 
 module.exports = router;
