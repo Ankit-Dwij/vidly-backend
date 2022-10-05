@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 
 const userSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  password: String,
+  name: { type: String, required: true, min: 3, max: 28 },
+  email: { type: String, required: true, unique: true, min: 3, max: 28 },
+  password: { type: String },
 });
 
 const User = new mongoose.model("User", userSchema);
@@ -14,10 +14,18 @@ const User = new mongoose.model("User", userSchema);
 const validateUser = (user) => {
   const userValidation = Joi.object({
     name: Joi.string().min(3).max(28).required(),
-    email: Joi.string().min(7).max(28).required(),
+    email: Joi.string().min(7).max(28).required().email(),
     password: Joi.string().min(6).max(15).required(),
   });
   return userValidation.validate(user);
 };
 
-module.exports = { User, validateUser };
+const validateLogin = (req) => {
+  const loginValidation = Joi.object({
+    email: Joi.string().min(7).max(28).required().email(),
+    password: Joi.string().min(6).max(15).required(),
+  });
+  return loginValidation.validate(req);
+};
+
+module.exports = { User, validateUser, validateLogin };
