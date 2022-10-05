@@ -1,5 +1,4 @@
 const _ = require("lodash");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
@@ -21,7 +20,7 @@ router.post("/register", async (req, res) => {
     user.password = await bcrypt.hash(req.body.password, salt);
     await user.save();
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY);
+    const token = user.generateAuthToken();
     res
       .header("x-auth-token", token)
       .send(_.pick(user, ["_id", "name", "email"]));
@@ -44,7 +43,7 @@ router.post("/login", async (req, res) => {
   if (!validPassword) return res.status(400).send("Invalid email or password");
 
   try {
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY);
+    const token = user.generateAuthToken();
     res.status(200).send(token);
   } catch (ex) {
     res.send(ex);
