@@ -5,6 +5,7 @@ const validateCourse = require("../course.Validate");
 const Course = require("../models/courseSchema");
 const auth = require("../middlewares/auth");
 const admin = require("../middlewares/admin");
+const async_handler = require("../middlewares/asyncHandler");
 
 router.get("/", async (req, res) => {
   const courses = await Course
@@ -21,16 +22,15 @@ router.get("/", async (req, res) => {
 });
 
 //route params && query strings
-router.get("/:id", async (req, res, next) => {
-  try {
+router.get(
+  "/:id",
+  async_handler(async (req, res) => {
     const course = await Course.findById(req.params.id);
     if (!course)
       return res.status(404).send("Course with given id was not found");
     res.status(200).send(course);
-  } catch (ex) {
-    next(ex);
-  }
-});
+  })
+);
 
 //POST & INPUT VALIDATION
 //@desc Create a new Course
