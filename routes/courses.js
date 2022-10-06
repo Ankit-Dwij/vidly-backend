@@ -4,6 +4,7 @@ const router = express.Router();
 const validateCourse = require("../course.Validate");
 const Course = require("../models/courseSchema");
 const auth = require("../middlewares/auth");
+const admin = require("../middlewares/admin");
 
 router.get("/", async (req, res) => {
   const courses = await Course
@@ -30,7 +31,7 @@ router.get("/:id", async (req, res) => {
 
 //POST & INPUT VALIDATION
 //@desc Create a new Course
-router.post("/", auth, async (req, res) => {
+router.post("/", [auth, admin], async (req, res) => {
   const { error } = validateCourse(req.body);
   if (error) return res.status(400).send(error);
 

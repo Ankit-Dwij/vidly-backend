@@ -1,8 +1,18 @@
+const auth = require("../middlewares/auth");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
 const { User, validateUser, validateLogin } = require("../models/userSchema");
+
+//@desc get the current logged in user
+//@url /api/users/me
+router.get("/me", auth, async (req, res) => {
+  const user = await User.findById(req.user._id).select("-password");
+  if (!user) return res.status(404).send("User not found");
+
+  res.send(user);
+});
 
 // @desc Register a new user
 // @url /api/users/register
