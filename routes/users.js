@@ -44,7 +44,7 @@ router.post("/login", async (req, res) => {
 
   try {
     const token = user.generateAuthToken();
-    res.status(200).header("x-auth-token", token);
+    res.header("x-auth-token", token).send("Logged In");
   } catch (ex) {
     res.send(ex);
   }

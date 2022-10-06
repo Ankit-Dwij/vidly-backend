@@ -22,7 +22,7 @@ app.set("view engine", "pug");
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
-app.use(logger);
+// app.use(logger);
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("tiny"));
   debug("Morgan Enabled...");
