@@ -21,12 +21,15 @@ router.get("/", async (req, res) => {
 });
 
 //route params && query strings
-router.get("/:id", async (req, res) => {
-  const course = await Course.findById(req.params.id);
-  if (!course)
-    return res.status(404).send("Course with given id was not found");
-
-  res.status(200).send(course);
+router.get("/:id", async (req, res, next) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    if (!course)
+      return res.status(404).send("Course with given id was not found");
+    res.status(200).send(course);
+  } catch (ex) {
+    next(ex);
+  }
 });
 
 //POST & INPUT VALIDATION

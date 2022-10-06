@@ -8,6 +8,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
 const logger = require("./middlewares/logger");
+const error = require("./middlewares/error");
 const courses = require("./routes/courses");
 const users = require("./routes/users");
 const home = require("./routes/homepage");
@@ -32,6 +33,8 @@ if (process.env.NODE_ENV === "development") {
 app.use("/api/courses", courses);
 app.use("/api/users", users);
 app.use("/", home);
+
+app.use(error);
 
 debug("Name : " + config.get("name"));
 debug("MAIL : " + config.get("mail-server.host"));
