@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/ankit/projects/tuts/node-js-mosh/logs/dev/.93a26840f6f348ce795f361abfbdd64bca743fd9-audit.json",
+    "files": [
+        {
+            "date": 1665203550562,
+            "name": "/home/ankit/projects/tuts/node-js-mosh/logs/dev/2022-10-08.log",
+            "hash": "dad13bf97fe32eae6ec57c2a57ad998088fa35526a355fa970d89064be278282"
+        }
+    ],
+    "hashType": "sha256"
+}
