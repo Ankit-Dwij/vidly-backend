@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watchAll",
     "dev": "NODE_ENV=development DEBUG=app:* nodemon ./index.js",
     "start": "NODE_ENV=production node ./index.js"
   },
@@ -25,5 +25,8 @@
     "mongoose": "^6.6.1",
     "morgan": "^1.10.0",
     "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "jest": "^29.1.2"
   }
 }
