@@ -1,4 +1,4 @@
-const { User } = require("../../../../models/userSchema");
+const { User } = require("../../../models/userSchema");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
